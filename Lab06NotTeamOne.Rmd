@@ -1,8 +1,45 @@
 ---
 title: "Lab06NotTeamOne"
-author: "David Orozco"
+author: "David Orozco, Arie del Valle, Ryan Tate, Anderson Mun, Ethan Schacht"
 date: "February 20, 2019"
 output: html_document
 ---
+```{r, echo=FALSE, include=FALSE}
+library(tidyverse)
+COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/osfstorage/5a8ca28f57103100104584db")
+```
+****
+### Team Section
+```{r}
 
+```
+****
+### Individual Section
+```{r}
 
+```
+****
+#### David's Section
+```{r}
+
+```
+****
+#### Arie's Section
+```{r}
+
+```
+****
+#### Ethan's Section
+```{r}
+
+```
+****
+#### Ryan's Section
+```{r}
+
+```
+****
+#### Anderson's Section
+```{r}
+
+```
