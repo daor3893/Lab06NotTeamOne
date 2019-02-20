@@ -1,0 +1,8 @@
+---
+title: "Lab06NotTeamOne"
+author: "David Orozco"
+date: "February 20, 2019"
+output: html_document
+---
+
+
