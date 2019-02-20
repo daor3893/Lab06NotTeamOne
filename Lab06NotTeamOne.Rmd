@@ -7,39 +7,75 @@ output: html_document
 ```{r, echo=FALSE, include=FALSE}
 library(tidyverse)
 COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/osfstorage/5a8ca28f57103100104584db")
+
 ```
 ****
 ### Team Section
+****
+
 ```{r}
 
 ```
 ****
+
 ### Individual Section
+****
 ```{r}
 
 ```
 ****
-#### David's Section
-```{r}
 
+#### David's Section
+****
+```{r, echo = FALSE, message=FALSE}
+decflight<-COflights %>% filter(MONTH == "12", !is.na(ARR_DELAY),!is.na(DEP_DELAY))
+holiday <- COflights %>% filter(MONTH == "12", DAY_OF_MONTH <= 27, DAY_OF_MONTH >= 23, !is.na(ARR_DELAY),!is.na(DEP_DELAY))
+
+ggplot(data = decflight,mapping = aes(x = ARR_DELAY, y = DEP_DELAY))+
+  geom_point() + geom_smooth() + ggtitle('December Delays') + xlab('Arival Delay') + ylab('Departure Delay')
+  
 ```
+
+* I used 'filter' to seperate all the December flights in 2017. 
+
+* There is a strong positive coorelation between between arrival and departure delay.
+
+****
+```{r, echo=FALSE}
+A <- decflight %>% filter(ARR_DELAY >= 15,DEP_DELAY >= 15) %>% count()
+B <- holiday %>% filter(ARR_DELAY >= 15,DEP_DELAY >= 15) %>% count()
+C <- (B/A)*100
+C
+```
+
+* I used 'filter' to seperate all the flights in decemeber that had a delay larger than 15 min. I did the same thing to a tibble of all flights during 23rd-27th of December only. 
+
+* There is a 29.1% probabilty that your flight would have been delayed 15min or more in December of 2017 given you flew during the holidays (23rd - 27th of Dec).
+
 ****
 #### Arie's Section
+****
 ```{r}
 
 ```
+
 ****
 #### Ethan's Section
+****
 ```{r}
 
 ```
+
 ****
 #### Ryan's Section
+****
 ```{r}
 
 ```
+
 ****
 #### Anderson's Section
+****
 ```{r}
 
 ```
