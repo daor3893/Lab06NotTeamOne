@@ -117,7 +117,7 @@ averages of those months, and size aethetics of flight counts per month to displ
 ****
 #### Anderson's Section
 ****
-```{r}
+```{r, echo=FALSE}
 delflights <- COflights %>%
   filter(DEST == "DEN", !is.na(ARR_DELAY), ARR_DELAY <= 120, DEP_TIME >= "0900", MONTH >= 9)
 wetflights <- COflights %>%
@@ -127,12 +127,15 @@ wetflights <- COflights %>%
 
 ggplot(data = delflights, mapping = aes(x = ARR_DELAY)) +
   geom_density() +
-  facet_grid(.~MONTH)
+  facet_grid(.~MONTH) +
+  xlab("Arrival Delay") +
+  ggtitle("Arrival Delay vs. Departure Time")
 ```  
+
 * I used filter to filter out flights that occured from september to december with an arrival delay of two hours after 9:00am.
 
 * There is a large number of people who arrive earlier than later.
-```{r}
+```{r, echo=FALSE}
 A <- COflights %>%
   filter(DEP_DELAY < 15, !is.na(ARR_DELAY)) %>%
   count()
@@ -142,6 +145,7 @@ B <- COflights %>%
 C <- A/B
 C
 ```
+
 * I used filter to find all flights with a departure delay of less than fifteen minutes.
 
 * There is a 12.73% probability of your flight being delayed by over fifteen minutes when you spend over 200 minutes in the air.
