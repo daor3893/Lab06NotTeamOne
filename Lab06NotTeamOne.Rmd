@@ -13,8 +13,30 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 ### Team Section
 ****
 
-```{r}
+```{r, include=FALSE}
+DENflights <- COflights %>% filter(ORIGIN == "DEN"| DEST == "DEN")
 
+lateflights <- DENflights %>% filter( ARR_DELAY >= 15 , !is.na(ARR_DELAY), !is.na(DEP_DELAY))
+
+securitydelay <- lateflights %>% filter(SECURITY_DELAY > 0) %>% count()
+
+nasdelay <- lateflights %>% filter(NAS_DELAY > 0) %>% count()
+
+carrierdelay <- lateflights %>% filter(CARRIER_DELAY > 0) %>% count()
+
+weatherdelay <- lateflights %>% filter(WEATHER_DELAY > 0) %>% count()
+
+lateaircraftdelay <- lateflights %>% filter(LATE_AIRCRAFT_DELAY > 0) %>% count()
+
+table <- tibble(
+  SECURITY_DELAY = 127, 
+  LATE_AIRCRAFT_DELAY = 40479,
+  WEATHER_DELAY = 3330,
+  NAS_DELAY = 41285,
+  CARRIER_DELAY = 38751
+) 
+
+table
 ```
 ****
 
