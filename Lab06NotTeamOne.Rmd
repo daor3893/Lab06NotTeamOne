@@ -62,12 +62,11 @@ C
 ****
 #### Ethan's Section
 ****
-```{r}
+```{r, echo=FALSE}
 delayed_flights <- COflights %>%
   filter(DEST == "DEN") %>%
   group_by(MONTH) %>%
   summarise(avg_delay = mean(ARR_DELAY, na.rm = TRUE), count = n())
-delayed_flights
 
 ggplot(data = delayed_flights) +
   geom_point(mapping = aes(x = MONTH, y = avg_delay, size = count)) +
@@ -93,16 +92,16 @@ flight_delayed_Nov <- COflights %>%
   summarise(n = n()) #number of flights arriving in Denver delayed in November
 
 prob_delayed <- flight_DEN_delayed / flight_DEN  
-prob_delayed #probability of flight being delayed given that it's going to Denver
+# prob_delayed- probability of flight being delayed given that it's going to Denver
 
 prob_jan <- flight_delayed_Jan / flight_DEN_delayed
 prob_jan #probability of month being January given that it's delayed in Denver
 
 prob_nov <- flight_delayed_Nov / flight_DEN_delayed
-prob_nov #probability of month being November given that it's delayed in Denver
+# prob_nov -probability of month being November given that it's delayed in Denver
 
 expected_prob <- 1 / 12
-expected_prob #expected probability of it being certain month given that flight is delayed in Denver
+# expected_prob-expected probability of it being certain month given that flight is delayed in Denver
 ```
 
 * Findings: The scatterplot uses filtering of destination (DEN), grouping by month, summarizing
