@@ -55,7 +55,7 @@ C
 ****
 #### Arie's Section
 ****
-```{r}
+```{r, echo = FALSE}
 arriv_del_fri_UA <- COflights %>%
   filter(ARR_DELAY >60, DEST == "DEN",CARRIER == "UA") %>%
   summarise(n=n())
@@ -73,7 +73,10 @@ delay_arr_prob = arriv_del_fri_UA /delayed_arr
 delay_arr_prob
 
 ```
-* I graphed the distribution of flights by carrier. From this graph I wanted to see the probability of arrival delays greater than 60 minutes given that the carrier was United.
+* I graphed the distribution of flights by carrier. From this graph I wanted to see the probability of arrival delays greater than 60 minutes given that the carrier was United. 
+* I used geom_density to show the distribution of flights by carrier and I also filled it by carrier for a better visualiztion.
+* To find the probablity I created the variable delayed_arr and piped the COflights and filterd Denver as the destination and arrival delays greated than 60 minutes. Then I created a second variable, arriv_del_fri_UA, that filters the destination as Denver, United as the carrier, and arrival delays that are greater than 60 mins. Then I calculated the probablity, arriv_del_fri_UA /delayed_arr.
+
 ****
 #### Ethan's Section
 ****
