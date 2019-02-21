@@ -63,8 +63,50 @@ C
 #### Ethan's Section
 ****
 ```{r}
+delayed_flights <- COflights %>%
+  filter(DEST == "DEN") %>%
+  group_by(MONTH) %>%
+  summarise(avg_delay = mean(ARR_DELAY, na.rm = TRUE), count = n())
+delayed_flights
 
+ggplot(data = delayed_flights) +
+  geom_point(mapping = aes(x = MONTH, y = avg_delay, size = count)) +
+  xlab("Month (1-12)") +
+  ylab("Average Arrival Delay (mins)") +
+  ggtitle("Month vs. Average Delay Period for Flights Arriving in Denver in 2017")
+
+
+flight_DEN <- COflights %>%
+  filter(DEST == 'DEN') %>% #number of flights arriving in Denver
+  summarise(n = n())
+
+flight_DEN_delayed <- COflights %>%
+  filter(DEST == 'DEN', ARR_DELAY >= 15) %>% #number of flights arriving in Denver delayed
+  summarise(n = n())
+
+flight_delayed_Jan <- COflights %>%
+  filter(DEST == 'DEN', ARR_DELAY >= 15, MONTH == 1) %>%
+  summarise(n = n()) #number of flights arriving in Denver delayed in January
+
+flight_delayed_Nov <- COflights %>%
+  filter(DEST == 'DEN', ARR_DELAY >= 15, MONTH == 11) %>%
+  summarise(n = n()) #number of flights arriving in Denver delayed in November
+
+prob_delayed <- flight_DEN_delayed / flight_DEN  
+prob_delayed #probability of flight being delayed given that it's going to Denver
+
+prob_jan <- flight_delayed_Jan / flight_DEN_delayed
+prob_jan #probability of month being January given that it's delayed in Denver
+
+prob_nov <- flight_delayed_Nov / flight_DEN_delayed
+prob_nov #probability of month being November given that it's delayed in Denver
+
+expected_prob <- 1 / 12
+expected_prob #expected probability of it being certain month given that flight is delayed in Denver
 ```
+
+* Findings: The scatterplot uses filtering of destination (DEN), grouping by month, summarizing
+averages of those months, and size aethetics of flight counts per month to display a visual represnation of the times of year when flights tend to arrive later or earlier.  The "slowest" month is January with an average delayed flight time of 6.01 minutes and the "fastest" month is November with an average delayed flight time of -6.19 minutes (6.19 mins early).  Conditional probabilities match the graph's implications, as well.  For example, the probability of the month being January given that a flight is delayed (>= 15 mins late) in Denver is 0.107 and the probability of the month being November given that a flight is delayed in Denver is 0.042.  Both of these probabilities are well below or above the expected/average probability, or E(x), per month of 0.083 (1/12).  There also appears to be a minor correlation between the amount of flights per month, represented by the size of the points, and average arrival delay.  For example, 2 of the 3 slowest months (Jul,Aug) contain close to 21,000 flights, representing the busiest months of year, and the fastest month (Nov) contains less that 18,000 flights, representing thethe 3rd least busy month of year.  Therefore, we can conclude that both the month and amount of air traffic affects arrival delays in Denver during 2017.
 
 ****
 #### Ryan's Section
