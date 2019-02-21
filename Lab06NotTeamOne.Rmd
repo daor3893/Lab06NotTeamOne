@@ -56,9 +56,24 @@ C
 #### Arie's Section
 ****
 ```{r}
+arriv_del_fri_UA <- COflights %>%
+  filter(ARR_DELAY >60, DEST == "DEN",CARRIER == "UA") %>%
+  summarise(n=n())
+
+delayed_arr <- COflights %>%
+  filter(DEST == "DEN", ARR_DELAY >60) %>%
+  summarise(n=n())
+
+ggplot(data = COflights, mapping = aes(x = CARRIER, color = CARRIER))+
+  geom_density()+
+  xlab("Carrier")+
+  ggtitle("Distribution of carrier flights")
+
+delay_arr_prob = arriv_del_fri_UA /delayed_arr
+delay_arr_prob
 
 ```
-
+* I graphed the distribution of flights by carrier. From this graph I wanted to see the probability of arrival delays greater than 60 minutes given that the carrier was United.
 ****
 #### Ethan's Section
 ****
