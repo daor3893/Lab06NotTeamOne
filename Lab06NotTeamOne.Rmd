@@ -164,8 +164,59 @@ averages of those months, and size aethetics of flight counts per month to displ
 #### Ryan's Section
 ****
 ```{r}
+delay_carrier <- COflights %>%
+  filter(DEST == 'DEN', DEP_DELAY >='15') %>%
+  group_by(CARRIER)
+  
+
+ggplot(data = delay_carrier, aes(x = CARRIER, fill = CARRIER)) + 
+  stat_count( width = 0.5) +
+  ggtitle("Distribution of delayed departures by carrier")
+
+
+delay_HOUSTON <- COflights %>%
+  filter(DEST == 'DEN', DEP_DELAY >='15', ORIGIN == 'HOU') 
+
+
+ggplot(data = delay_HOUSTON, aes(x = DEP_DELAY, y = ARR_DELAY)) + 
+  geom_point() +
+  geom_abline() +
+  ggtitle("Distribution of delayed departures and arrivals from Houston")
+
+
+
+delay_WN <- COflights %>%
+  filter(DEST == 'DEN', DEP_DELAY >='15', CARRIER == 'WN') %>% #flights with WN and delayed to denver
+  summarize(n = n())
+
+flight_WN <- COflights %>%
+  filter(CARRIER == 'WN') %>% #flights with WN carrier
+  summarize(n = n())
+
+#P(dep_Delay|carrier) = P(dep_delay and carrier)/P(carrier)
+
+
+WN_DEP_DELAY <- delay_WN / flight_WN  #flight delayed to denver given WN carrier
+
+
+delay_houston <- COflights %>% # number of flights delayed from Houston
+  filter(DEST == 'DEN', DEP_DELAY >='15', ORIGIN == 'HOU') %>%
+  summarize(n = n())
+
+
+flight_houston <- COflights %>% #number of flights from Houston
+  filter(ORIGIN == 'HOU') %>%
+  summarize(n = n())
+
+houston_delayed_dep <- delay_houston / flight_houston #probability of a flight from Houston being delayed
 
 ```
+*For my graphs I found the probability of flights to Denver that were delayed given they were from Houston airport, and the probability of flights to Denver that were delayed given they had the carrier WN.
+*The probabilities are .3454 and .1787 respectively
+*The graph for the Houston probability is a point graph showing the distribution of all arrival delays and departure delays from Houston by the amount of time the delay lasted
+*The graph for the carrier probability is a histogram of all of the carriers seperated and distinguished by color
+
+
 
 ****
 #### Anderson's Section
