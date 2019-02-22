@@ -12,7 +12,15 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 ****
 ### Team Section
 ****
+#### Overall Questions
+* Main Question: What factors increase the probability of a delayed arrival and what factors decrease the probability of a delayed arrival? 
+* Vague question: What is the most common factor that may cause a delay?
+* These questions are important because no one wants their flight to be delyed and DIA airport managers want to the increase chances of flights arriving on time. Understanding factors that affect the arrival time will help DIA managers decide which policies will be most effective in decreasing delays.
 
+#### Team Graph
+
+#### Recommendations
+* 
 ```{r, include=FALSE}
 DENflights <- COflights %>% filter(ORIGIN == "DEN"| DEST == "DEN")
 
@@ -189,4 +197,17 @@ C
 * I used filter to find all flights with a departure delay of less than fifteen minutes.
 
 * There is a 12.73% probability of your flight being delayed by over fifteen minutes when you spend over 200 minutes in the air.
-```
+
+**** 
+### Who did what?
+****
+
+Anderson:
+
+Ethan:
+
+David:
+
+Ryan:
+
+Arie:
