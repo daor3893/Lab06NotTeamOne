@@ -38,7 +38,7 @@ high_delay
 
 ```
 
-* This table shows the origin where 2000 or more flights had at least an average delay of 4. 
+* Table interpretation: This table groups by airports that fly into Denver and displays their counts and average delays, and must fufill the following criteria: They must have flown at least 2000 flights into DEN in 2017 and they must post an average delay of at least 5 minutes with the exceptions of DFW and ORD (due to these two airports' massive sample sizes and their average arrival delay over 4 minutes). 
 
 ```{r, echo=FALSE}
 
@@ -50,7 +50,7 @@ ggplot(data = high_delay) +
 
 ```
 
-* Maybe add a description of the graph
+* Graph interpretation: This graph displays airports of origin flying planes into Denver against their high average delays combined with high sample sizes as a confounding variable.  We can see that among the airports that fulfill the filtering criteria, DAL flies planes into Denver with the highest average delay at 9.83 minutes.  However, SFO and LAX, which fly a much bigger load of over 7000 and over 8000 flights into Denver a year, respectively, post average delays into Denver of 9.01 minutes and 5.22 minutes.
 
 ```{r, echo=FALSE}
 
@@ -67,11 +67,6 @@ DAL_delayed <- COflights %>%
 
 prob_DAL = DAL_delayed / count_delayed_flights
 prob_DAL #Probability of flight being from DAL given that it's arrival is delayed in Denver
-```
-
-* What do these probablities mean??
-
-```{r,echo=FALSE}
 
 SFO_delayed <- COflights %>%
   filter(DEST == 'DEN', ARR_DELAY >= 15, ORIGIN == "SFO") %>%
@@ -80,12 +75,6 @@ SFO_delayed <- COflights %>%
 prob_SFO = SFO_delayed / count_delayed_flights
 prob_SFO #Probability of flight being from SFO given that it's arrival is delayed in Denver
 
-```
-
-* What do these number means?
-
-```{r,echo=FALSE}
-
 LAX_delayed <- COflights %>%
   filter(DEST == 'DEN', ARR_DELAY >= 15, ORIGIN == "LAX") %>%
   summarise(n=n()) #Number of total delayed flights arriving from LAX into Denver
@@ -93,24 +82,9 @@ LAX_delayed <- COflights %>%
 prob_LAX = LAX_delayed / count_delayed_flights
 prob_LAX #Probability of flight being from LAX given that it's arrival is delayed in Denver
 
-#Helpful notes for probability/graph interpretation:
-
-#Compared to the average/expected probability of 0.007 (1/138 airports) for a flight coming 
-#from any origin given that it's delayed in Denver, DAL has 0.017, SFO has 0.051, LAX has 0.050
-
-#Although DAL has a lower probability than LAX and SFO (due to lower count coming into Denver),
-#it's very noteable that it posts the highest average delay, which is bery damaging.
-
-#Recommendations: Tell the airports on this graph, especially DAL, SFO, and LAX, to get their
-#acts together when flying planes to Denver :)
-
-#this graph doesn't display raw probability regarding delayed flights, but it gives us a good
-#idea of probability by displaying highest average delays combined with high sample sizes
-#(>2000 flights a year from origin into Denver).  Probability of delay also can't necessarily #tell us magnitude of delay... this graph can.
-
 ```
 
-* I like the comments, in the code above, however we should explain each probablity right under where it is displayed. 
+* Probability interpretations: As a total of 138 airports flew into Denver in 2017, we would expect the average probability of an flight coming from any origin given that it's delayed in Denver to be 0.007, or 1/138.  DAL's probability is 0.017, SFO's probability is 0.051, and LAX's probability is 0.050.  Although DAL has a lower probability than LAX and SFO (due to lower count coming into Denver), it's very noteable that it posts the highest average delay, which is bery damaging.
 
 #### Vague Question
 
@@ -148,6 +122,10 @@ table
 * The 1x5 tibble above shows the number of flights in which security, late aircraft, weather, nas, or carrier delays were a part of a flight's overall delay. The first column shows the number of flights that had a generaly delay (delay is >= 15 min).
 
 * Of all the delayed flights, it seem that late aircraft, NAS, or carrier delays was the most prominent delay type in and out of Denver.
+
+###Recommendations
+
+* As data scientists serving for the interests of Denver International Airport, our findings lead us to recommend that we contact many of the airports shown on the graph, especially DAL, LAX, and SFO, regarding their handling of flying planes into Denver as they send the combination of highest average delays with highest flight counts.  We also recommend that DIA takes steps to improve numbers on late aircraft, carrier delays, and NAS delays as they are by far the most prominent reasons for overall delays into Denver.
 
 ****
 
@@ -357,7 +335,7 @@ C
 
 Anderson:
 
-Ethan:
+Ethan: I completed the inidividual section, created entire graph, probabilities, and explanation/recommendations for team section.
 
 David: I started Github/GitKraken repository, edited R-Markdown format, completed individual section, created a tibble demonstrating the amount of flights in which security, carrier, NAS, or late aircraft delays were a part of a flights overall delay ( greater than 15 min). 
 
