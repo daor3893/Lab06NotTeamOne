@@ -135,7 +135,7 @@ lateaircraftdelay <- lateflights %>% filter(LATE_AIRCRAFT_DELAY > 0) %>% count()
 
 ```
 
-* ALL_LATE = 76329
+
 
 ```{r,echo=FALSE}
 
