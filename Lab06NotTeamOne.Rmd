@@ -17,7 +17,9 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 * Vague question: What is the most common factor that may cause a delay?
 * These questions are important because no one wants their flight to be delyed and DIA airport managers want to the increase chances of flights arriving on time. Understanding factors that affect the arrival time will help DIA managers decide which policies will be most effective in decreasing delays.
 
+****
 #### Team Graph
+
 
 #### Recommendations
 * 
@@ -35,7 +37,8 @@ carrierdelay <- lateflights %>% filter(CARRIER_DELAY > 0) %>% count()
 weatherdelay <- lateflights %>% filter(WEATHER_DELAY > 0) %>% count()
 
 lateaircraftdelay <- lateflights %>% filter(LATE_AIRCRAFT_DELAY > 0) %>% count()
-
+```
+```{r, echo=FALSE}
 table <- tibble(
   SECURITY_DELAY = 127, 
   LATE_AIRCRAFT_DELAY = 40479,
@@ -46,6 +49,7 @@ table <- tibble(
 
 table
 ```
+
 ****
 
 ### Individual Section
@@ -103,6 +107,7 @@ delay_arr_prob = arriv_del_fri_UA /delayed_arr
 delay_arr_prob
 
 ```
+
 * I graphed the distribution of flights by carrier. From this graph I wanted to see the probability of arrival delays greater than 60 minutes given that the carrier was United. 
 * I used geom_density to show the distribution of flights by carrier and I also filled it by carrier for a better visualiztion.
 * To find the probablity I created the variable delayed_arr and piped the COflights and filterd Denver as the destination and arrival delays greated than 60 minutes. Then I created a second variable, arriv_del_fri_UA, that filters the destination as Denver, United as the carrier, and arrival delays that are greater than 60 mins. Then I calculated the probablity, arriv_del_fri_UA /delayed_arr.
@@ -206,7 +211,7 @@ Anderson:
 
 Ethan:
 
-David:
+David: I started Github/GitKraken repository, edited R-Markdown format, completed individual section, created a tibble demonstrating the amount of flights in which security, carrier, NAS, or late aircraft delays were a part of a flights overall delay ( greater than 15 min). 
 
 Ryan:
 
