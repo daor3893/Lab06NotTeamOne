@@ -1,8 +1,8 @@
-<<<<<<< Updated upstream
+
 ---
 title: "Lab06NotTeamOne"
 author: "David Orozco, Arie del Valle, Ryan Tate, Anderson Mun, Ethan Schacht"
-date: "February 20, 2019"
+date: "February 22, 2019"
 output: html_document
 ---
 ```{r, echo=FALSE, include=FALSE}
@@ -28,7 +28,6 @@ delayed_flights <- COflights %>%
   group_by(ORIGIN) %>%
   summarise(count = n(), avg_delay = mean(ARR_DELAY)) %>%
   arrange(desc(avg_delay))
-delayed_flights
 
 high_count <- delayed_flights %>%
   filter(count >= 2000)
@@ -37,14 +36,26 @@ high_delay <- high_count %>%
   filter(avg_delay > 5 | ORIGIN == "DFW" | ORIGIN == "ORD")
 high_delay
 
+```
+
+* This table shows the origin where 2000 or more flights had at least an average delay of 4. 
+
+```{r, echo=FALSE}
+
 ggplot(data = high_delay) +
   geom_point(mapping = aes(x = ORIGIN, y = avg_delay, size = count)) +
   xlab("Airport of Origin") +
   ylab("Average Delay (mins)") +
   ggtitle("Airports of Origin vs. Avg Delay for Flights Arriving in DIA (2017)", subtitle = "Conditions: count of flights from origin must be > 2000, Avg. Delay must be > 4 mins")
 
+```
+
+* Maybe add a description of the graph
+
+```{r, echo=FALSE}
+
 prob_expected = 1/138 #(138 total airports that fly in to DIA)
-prob_expected #The expected/average probability of a flight coming from any origin given that it is delayed
+prob_expected # The expected/average probability of a flight coming from any origin given that it is delayed
 
 count_delayed_flights <- COflights %>%
   filter(DEST == 'DEN', ARR_DELAY >= 15) %>%
@@ -56,6 +67,11 @@ DAL_delayed <- COflights %>%
 
 prob_DAL = DAL_delayed / count_delayed_flights
 prob_DAL #Probability of flight being from DAL given that it's arrival is delayed in Denver
+```
+
+* What do these probablities mean??
+
+```{r,echo=FALSE}
 
 SFO_delayed <- COflights %>%
   filter(DEST == 'DEN', ARR_DELAY >= 15, ORIGIN == "SFO") %>%
@@ -63,6 +79,12 @@ SFO_delayed <- COflights %>%
 
 prob_SFO = SFO_delayed / count_delayed_flights
 prob_SFO #Probability of flight being from SFO given that it's arrival is delayed in Denver
+
+```
+
+* What do these number means?
+
+```{r,echo=FALSE}
 
 LAX_delayed <- COflights %>%
   filter(DEST == 'DEN', ARR_DELAY >= 15, ORIGIN == "LAX") %>%
@@ -87,12 +109,19 @@ prob_LAX #Probability of flight being from LAX given that it's arrival is delaye
 #(>2000 flights a year from origin into Denver).  Probability of delay also can't necessarily #tell us magnitude of delay... this graph can.
 
 ```
+
+* I like the comments, in the code above, however we should explain each probablity right under where it is displayed. 
+
 #### Vague Question
-* 
-```{r, include=FALSE}
+
+* What delay type was the most prominent regarding flights in and out of Denver? Security delays, late aircraft delays, weather delays, NAS delays, or carrier delays?
+
+```{r, echo=FALSE}
 DENflights <- COflights %>% filter(ORIGIN == "DEN"| DEST == "DEN")
 
 lateflights <- DENflights %>% filter( ARR_DELAY >= 15 , !is.na(ARR_DELAY), !is.na(DEP_DELAY))
+
+all_late <- lateflights %>% count()
 
 securitydelay <- lateflights %>% filter(SECURITY_DELAY > 0) %>% count()
 
@@ -103,27 +132,28 @@ carrierdelay <- lateflights %>% filter(CARRIER_DELAY > 0) %>% count()
 weatherdelay <- lateflights %>% filter(WEATHER_DELAY > 0) %>% count()
 
 lateaircraftdelay <- lateflights %>% filter(LATE_AIRCRAFT_DELAY > 0) %>% count()
-```
-```{r, echo=FALSE}
-table <- tibble(
-  SECURITY_DELAY = 127, 
-  LATE_AIRCRAFT_DELAY = 40479,
-  WEATHER_DELAY = 3330,
-  NAS_DELAY = 41285,
-  CARRIER_DELAY = 38751
-) 
 
+```
+
+* ALL_LATE = 76329
+
+```{r,echo=FALSE}
+
+table <- tibble( ALL_LATE = 76329, SECURITY = 127, LATE_AIRCRAFT = 40479,WEATHER = 3330, NAS = 41285, CARRIER = 38751)
 table
 ```
+
+
+
+* The 1x5 tibble above shows the number of flights in which security, late aircraft, weather, nas, or carrier delays were a part of a flight's overall delay. The first column shows the number of flights that had a generaly delay (delay is >= 15 min).
+
+* Of all the delayed flights, it seem that late aircraft, NAS, or carrier delays was the most prominent delay type in and out of Denver.
 
 ****
 
 ### Individual Section
 ****
-```{r}
 
-```
-****
 
 #### David's Section
 ****
@@ -176,7 +206,7 @@ delay_arr_prob
 
 * I graphed the distribution of flights by carrier. From this graph I wanted to see the probability of arrival delays greater than 60 minutes given that the carrier was United. 
 * I used geom_density to show the distribution of flights by carrier and I also filled it by carrier for a better visualiztion.
-* To find the probablity I created the variable delayed_arr and piped the COflights and filterd Denver as the destination and arrival delays greated than 60 minutes. Then I created a second variable, arriv_del_fri_UA, that filters the destination as Denver, United as the carrier, and arrival delays that are greater than 60 mins. Then I calculated the probablity, arriv_del_fri_UA /delayed_arr.
+* To find the probablity I created the variable delayed_arr and piped the COflights and filterd Denver as the destination and arrival delays greated than 60 minutes. Then I created a second variable, arriv_del_fri_UA, that filters the destination as Denver, United as the carrier, and arrival delays that are greater than 60 mins. Then I calculated the probablity, arriv_del_fri_UA /delayed_arr which was 21.7%.
 
 ****
 #### Ethan's Section
@@ -261,13 +291,13 @@ A <- COflights %>%
 B <- COflights %>%
   filter(DEP_DELAY < 15, !is.na(ARR_DELAY), AIR_TIME > 200) %>%
   count()
-C <- A/B
+C <- B/A
 C
 ```
 
 * I used filter to find all flights with a departure delay of less than fifteen minutes.
 
-* There is a 12.73% probability of your flight being delayed by over fifteen minutes when you spend over 200 minutes in the air.
+* There is a 7.8% probability of your flight's departure delay being less than fifteen minutes when you spend over 200 minutes in the air.
 
 **** 
 ### Who did what?
@@ -282,197 +312,3 @@ David: I started Github/GitKraken repository, edited R-Markdown format, complete
 Ryan:
 
 Arie:
-=======
----
-title: "Lab06NotTeamOne"
-author: "David Orozco, Arie del Valle, Ryan Tate, Anderson Mun, Ethan Schacht"
-date: "February 20, 2019"
-output: html_document
----
-```{r, echo=FALSE, include=FALSE}
-library(tidyverse)
-COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/osfstorage/5a8ca28f57103100104584db")
-
-```
-****
-### Team Section
-****
-
-```{r, include=FALSE}
-DENflights <- COflights %>% filter(ORIGIN == "DEN"| DEST == "DEN")
-
-lateflights <- DENflights %>% filter( ARR_DELAY >= 15 , !is.na(ARR_DELAY), !is.na(DEP_DELAY))
-
-securitydelay <- lateflights %>% filter(SECURITY_DELAY > 0) %>% count()
-
-nasdelay <- lateflights %>% filter(NAS_DELAY > 0) %>% count()
-
-carrierdelay <- lateflights %>% filter(CARRIER_DELAY > 0) %>% count()
-
-weatherdelay <- lateflights %>% filter(WEATHER_DELAY > 0) %>% count()
-
-lateaircraftdelay <- lateflights %>% filter(LATE_AIRCRAFT_DELAY > 0) %>% count()
-
-table <- tibble(
-  SECURITY_DELAY = 127, 
-  LATE_AIRCRAFT_DELAY = 40479,
-  WEATHER_DELAY = 3330,
-  NAS_DELAY = 41285,
-  CARRIER_DELAY = 38751
-) 
-
-table
-```
-****
-
-### Individual Section
-****
-```{r}
-
-```
-****
-
-#### David's Section
-****
-```{r, echo = FALSE, message=FALSE}
-decflight<-COflights %>% filter(MONTH == "12", !is.na(ARR_DELAY),!is.na(DEP_DELAY))
-holiday <- COflights %>% filter(MONTH == "12", DAY_OF_MONTH <= 27, DAY_OF_MONTH >= 23, !is.na(ARR_DELAY),!is.na(DEP_DELAY))
-
-ggplot(data = decflight,mapping = aes(x = ARR_DELAY, y = DEP_DELAY))+
-  geom_point() + geom_smooth() + ggtitle('December Delays') + xlab('Arival Delay') + ylab('Departure Delay')
-  
-```
-
-* I used 'filter' to seperate all the December flights in 2017. 
-
-* There is a strong positive coorelation between between arrival and departure delay.
-
-****
-```{r, echo=FALSE}
-A <- decflight %>% filter(ARR_DELAY >= 15,DEP_DELAY >= 15) %>% count()
-B <- holiday %>% filter(ARR_DELAY >= 15,DEP_DELAY >= 15) %>% count()
-C <- (B/A)*100
-C
-```
-
-* I used 'filter' to seperate all the flights in decemeber that had a delay larger than 15 min. I did the same thing to a tibble of all flights during 23rd-27th of December only. 
-
-* There is a 29.1% probabilty that your flight would have been delayed 15min or more in December of 2017 given you flew during the holidays (23rd - 27th of Dec).
-
-****
-#### Arie's Section
-****
-```{r, echo = FALSE}
-arriv_del_fri_UA <- COflights %>%
-  filter(ARR_DELAY >60, DEST == "DEN",CARRIER == "UA") %>%
-  summarise(n=n())
-
-delayed_arr <- COflights %>%
-  filter(DEST == "DEN", ARR_DELAY >60) %>%
-  summarise(n=n())
-
-ggplot(data = COflights, mapping = aes(x = CARRIER, color = CARRIER))+
-  geom_density()+
-  xlab("Carrier")+
-  ggtitle("Distribution of carrier flights")
-
-delay_arr_prob = arriv_del_fri_UA /delayed_arr
-delay_arr_prob
-
-```
-* I graphed the distribution of flights by carrier. From this graph I wanted to see the probability of arrival delays greater than 60 minutes given that the carrier was United. 
-* I used geom_density to show the distribution of flights by carrier and I also filled it by carrier for a better visualiztion.
-* To find the probablity I created the variable delayed_arr and piped the COflights and filterd Denver as the destination and arrival delays greated than 60 minutes. Then I created a second variable, arriv_del_fri_UA, that filters the destination as Denver, United as the carrier, and arrival delays that are greater than 60 mins. Then I calculated the probablity, arriv_del_fri_UA /delayed_arr.
-
-****
-#### Ethan's Section
-****
-```{r, echo=FALSE}
-delayed_flights <- COflights %>%
-  filter(DEST == "DEN") %>%
-  group_by(MONTH) %>%
-  summarise(avg_delay = mean(ARR_DELAY, na.rm = TRUE), count = n())
-
-ggplot(data = delayed_flights) +
-  geom_point(mapping = aes(x = MONTH, y = avg_delay, size = count)) +
-  xlab("Month (1-12)") +
-  ylab("Average Arrival Delay (mins)") +
-  ggtitle("Month vs. Average Delay Period for Flights Arriving in Denver in 2017")
-
-
-flight_DEN <- COflights %>%
-  filter(DEST == 'DEN') %>% #number of flights arriving in Denver
-  summarise(n = n())
-
-flight_DEN_delayed <- COflights %>%
-  filter(DEST == 'DEN', ARR_DELAY >= 15) %>% #number of flights arriving in Denver delayed
-  summarise(n = n())
-
-flight_delayed_Jan <- COflights %>%
-  filter(DEST == 'DEN', ARR_DELAY >= 15, MONTH == 1) %>%
-  summarise(n = n()) #number of flights arriving in Denver delayed in January
-
-flight_delayed_Nov <- COflights %>%
-  filter(DEST == 'DEN', ARR_DELAY >= 15, MONTH == 11) %>%
-  summarise(n = n()) #number of flights arriving in Denver delayed in November
-
-prob_delayed <- flight_DEN_delayed / flight_DEN  
-# prob_delayed- probability of flight being delayed given that it's going to Denver
-
-prob_jan <- flight_delayed_Jan / flight_DEN_delayed
-prob_jan #probability of month being January given that it's delayed in Denver
-
-prob_nov <- flight_delayed_Nov / flight_DEN_delayed
-# prob_nov -probability of month being November given that it's delayed in Denver
-
-expected_prob <- 1 / 12
-# expected_prob-expected probability of it being certain month given that flight is delayed in Denver
-```
-
-* Findings: The scatterplot uses filtering of destination (DEN), grouping by month, summarizing
-averages of those months, and size aethetics of flight counts per month to display a visual representation of the times of year when flights tend to arrive later or earlier.  The "slowest" month is January with an average delayed flight time of 6.01 minutes and the "fastest" month is November with an average delayed flight time of -6.19 minutes (6.19 mins early).  Conditional probabilities match the graph's implications, as well.  For example, the probability of the month being January given that a flight is delayed (>= 15 mins late) in Denver is 0.107 and the probability of the month being November given that a flight is delayed in Denver is 0.042.  Both of these probabilities are well below or above the expected/average probability, or E(x), per month of 0.083 (1/12).  There also appears to be a minor correlation between the amount of flights per month, represented by the size of the points, and average arrival delay.  For example, 2 of the 3 slowest months (Jul,Aug) contain close to 21,000 flights, representing the busiest months of year, and the fastest month (Nov) contains less that 18,000 flights, representing the 3rd least busy month of year.  Therefore, we can conclude that both the month and amount of air traffic affects arrival delays in Denver during 2017.
-
-****
-#### Ryan's Section
-****
-```{r}
-
-```
-
-****
-#### Anderson's Section
-****
-```{r, echo=FALSE}
-delflights <- COflights %>%
-  filter(DEST == "DEN", !is.na(ARR_DELAY), ARR_DELAY <= 120, DEP_TIME >= "0900", MONTH >= 9)
-wetflights <- COflights %>%
-  filter(DEST == "DEN", !is.na(ARR_DELAY), ARR_DELAY <= 120, AIR_TIME >= 100, MONTH >= 9)
-wetflights <- COflights %>%
-  summarise()
-
-ggplot(data = delflights, mapping = aes(x = ARR_DELAY)) +
-  geom_density() +
-  facet_grid(.~MONTH) +
-  xlab("Arrival Delay") +
-  ggtitle("Arrival Delay vs. Departure Time")
-```  
-
-* I used filter to filter out flights that occured from september to december with an arrival delay of two hours after 9:00am.
-
-* There is a large number of people who arrive earlier than later.
-```{r, echo=FALSE}
-A <- COflights %>%
-  filter(DEP_DELAY < 15, !is.na(ARR_DELAY)) %>%
-  count()
-B <- COflights %>%
-  filter(DEP_DELAY < 15, !is.na(ARR_DELAY), AIR_TIME > 200) %>%
-  count()
-C <- A/B
-C
-```
-
-* I used filter to find all flights with a departure delay of less than fifteen minutes.
-
-* There is a 12.73% probability of your flight being delayed by over fifteen minutes when you spend over 200 minutes in the air.
-```
->>>>>>> Stashed changes
