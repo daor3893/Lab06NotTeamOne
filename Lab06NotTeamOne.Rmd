@@ -123,7 +123,7 @@ table
 
 * Of all the delayed flights, it seem that late aircraft, NAS, or carrier delays was the most prominent delay type in and out of Denver.
 
-###Recommendations
+#### Recommendations
 
 * As data scientists serving for the interests of Denver International Airport, our findings lead us to recommend that we contact many of the airports shown on the graph, especially DAL, LAX, and SFO, regarding their handling of flying planes into Denver as they send the combination of highest average delays with highest flight counts.  We also recommend that DIA takes steps to improve numbers on late aircraft, carrier delays, and NAS delays as they are by far the most prominent reasons for overall delays into Denver.
 
@@ -333,12 +333,12 @@ C
 ### Who did what?
 ****
 
-Anderson:
+Anderson: Did individual part
 
-Ethan: I completed the inidividual section, created entire graph, probabilities, and explanation/recommendations for team section.
+Ethan: I completed the inidividual section, created entire graph, probabilities, and explanations/recommendations for team section.
 
 David: I started Github/GitKraken repository, edited R-Markdown format, completed individual section, created a tibble demonstrating the amount of flights in which security, carrier, NAS, or late aircraft delays were a part of a flights overall delay ( greater than 15 min). 
 
-Ryan:
+Ryan: Did individual part, helped with merge conflicts.
 
-Arie:
+Arie: Did individual part, overall questions and why they are important
