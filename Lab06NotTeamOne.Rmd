@@ -259,7 +259,7 @@ averages of those months, and size aethetics of flight counts per month to displ
 ****
 #### Ryan's Section
 ****
-```{r}
+```{r, echo=FALSE}
 delay_carrier <- COflights %>%
   filter(DEST == 'DEN', DEP_DELAY >='15') %>%
   group_by(CARRIER)
@@ -307,9 +307,10 @@ flight_houston <- COflights %>% #number of flights from Houston
 houston_delayed_dep <- delay_houston / flight_houston #probability of a flight from Houston being delayed
 
 ```
-*For my graphs I found the probability of flights to Denver that were delayed given they were from Houston airport, and the probability of flights to Denver that were delayed given they had the carrier WN.
-*The probabilities are .3454 and .1787 respectively
-*The graph for the Houston probability is a point graph showing the distribution of all arrival delays and departure delays from Houston by the amount of time the delay lasted
+
+* For my graphs I found the probability of flights to Denver that were delayed given they were from Houston airport, and the probability of flights to Denver that were delayed given they had the carrier WN.
+* The probabilities are .3454 and .1787 respectively
+* The graph for the Houston probability is a point graph showing the distribution of all arrival delays and departure delays from Houston by the amount of time the delay lasted
 *The graph for the carrier probability is a histogram of all of the carriers seperated and distinguished by color
 
 
