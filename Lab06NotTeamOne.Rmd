@@ -21,8 +21,73 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 ****
 #### Team Graph
 
+```{r, echo = FALSE, message=FALSE}
 
-#### Recommendations
+delayed_flights <- COflights %>%
+  filter(DEST == "DEN", !is.na(DEP_TIME), !is.na(ARR_TIME), !is.na(ARR_DELAY)) %>%
+  group_by(ORIGIN) %>%
+  summarise(count = n(), avg_delay = mean(ARR_DELAY)) %>%
+  arrange(desc(avg_delay))
+delayed_flights
+
+high_count <- delayed_flights %>%
+  filter(count >= 2000)
+
+high_delay <- high_count %>%
+  filter(avg_delay > 5 | ORIGIN == "DFW" | ORIGIN == "ORD")
+high_delay
+
+ggplot(data = high_delay) +
+  geom_point(mapping = aes(x = ORIGIN, y = avg_delay, size = count)) +
+  xlab("Airport of Origin") +
+  ylab("Average Delay (mins)") +
+  ggtitle("Airports of Origin vs. Avg Delay for Flights Arriving in DIA (2017)", subtitle = "Conditions: count of flights from origin must be > 2000, Avg. Delay must be > 4 mins")
+
+prob_expected = 1/138 #(138 total airports that fly in to DIA)
+prob_expected #The expected/average probability of a flight coming from any origin given that it is delayed
+
+count_delayed_flights <- COflights %>%
+  filter(DEST == 'DEN', ARR_DELAY >= 15) %>%
+  summarise(n = n()) #Number of total delayed flights arriving in Denver
+
+DAL_delayed <- COflights %>%
+  filter(DEST == 'DEN', ARR_DELAY >= 15, ORIGIN == "DAL") %>%
+  summarise(n = n()) #Number of total delayed flights arriving from DAL into Denver
+
+prob_DAL = DAL_delayed / count_delayed_flights
+prob_DAL #Probability of flight being from DAL given that it's arrival is delayed in Denver
+
+SFO_delayed <- COflights %>%
+  filter(DEST == 'DEN', ARR_DELAY >= 15, ORIGIN == "SFO") %>%
+  summarise(n = n()) #Number of total delayed flights arriving from SFO into Denver
+
+prob_SFO = SFO_delayed / count_delayed_flights
+prob_SFO #Probability of flight being from SFO given that it's arrival is delayed in Denver
+
+LAX_delayed <- COflights %>%
+  filter(DEST == 'DEN', ARR_DELAY >= 15, ORIGIN == "LAX") %>%
+  summarise(n=n()) #Number of total delayed flights arriving from LAX into Denver
+
+prob_LAX = LAX_delayed / count_delayed_flights
+prob_LAX #Probability of flight being from LAX given that it's arrival is delayed in Denver
+
+#Helpful notes for probability/graph interpretation:
+
+#Compared to the average/expected probability of 0.007 (1/138 airports) for a flight coming 
+#from any origin given that it's delayed in Denver, DAL has 0.017, SFO has 0.051, LAX has 0.050
+
+#Although DAL has a lower probability than LAX and SFO (due to lower count coming into Denver),
+#it's very noteable that it posts the highest average delay, which is bery damaging.
+
+#Recommendations: Tell the airports on this graph, especially DAL, SFO, and LAX, to get their
+#acts together when flying planes to Denver :)
+
+#this graph doesn't display raw probability regarding delayed flights, but it gives us a good
+#idea of probability by displaying highest average delays combined with high sample sizes
+#(>2000 flights a year from origin into Denver).  Probability of delay also can't necessarily #tell us magnitude of delay... this graph can.
+
+```
+#### Vague Question
 * 
 ```{r, include=FALSE}
 DENflights <- COflights %>% filter(ORIGIN == "DEN"| DEST == "DEN")
